@@ -891,6 +891,13 @@ module.exports.initExpress = function () {
     require('./pages/shared/floatFormatters'),
     require('./pages/instructorQuestionStatistics/instructorQuestionStatistics'),
   ]);
+  app.use('/pl/course_instance/:course_instance_id/instructor/question/:question_id/readme',[
+    function (req, res, next){
+      res.locals.navSubPage = 'readme';
+      next();
+    },
+    require('./pages/instructorQuestionReadme/instructorQuestionReadme')
+  ]);
   app.use('/pl/course_instance/:course_instance_id/instructor/question/:question_id/file_edit', [
     function (req, res, next) {
       res.locals.navSubPage = 'file_edit';
