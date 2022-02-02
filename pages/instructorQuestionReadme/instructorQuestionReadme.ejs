@@ -12,7 +12,12 @@
   <body>
     <%- include('../partials/navbar'); %>
     <div class="container-fluid">
-      <%- include('../partials/questionSyncErrorsAndWarnings'); %>
+      <div class="card mb-4">
+        <div class="card-header bg-primary text-white">
+          README.md for question <%= question.qid %>
+        </div>
+
+        <div class="table-responsive">
     </div>
     <div>
       <%- readMeData %>

@@ -10,7 +10,7 @@ const fs = require('fs');
 const marked = require('marked')
 
 router.get('/', function (req, res, next) {
-    let filePath = `/course/questions/${res.locals.question.directory}/README.md`;
+    let filePath = `${res.locals.course.path}/questions/${res.locals.question.directory}/README.md`;
     let fileData = fs.readFileSync(filePath, "utf8");
 
     if (fileData !== null){
