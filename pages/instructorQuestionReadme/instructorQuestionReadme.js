@@ -13,18 +13,27 @@ const logger = require('../../tests/dummyLogger');
 router.get('/', function (req, res, next) {
     let filePath = `${res.locals.course.path}/questions/${res.locals.question.directory}/README.md`;
 
-    try{
-        let fileData = fs.readFileSync(filePath, "utf8");
-        if (fileData !== null){
-            res.locals.readMeData = marked(fileData);
+    fs.stat(filePath, function(err, stat){
+        if (err == null){
+            try{
+                let fileData = fs.readFileSync(filePath, "utf8");
+                res.locals.readMeData = marked(fileData);
+            }
+            catch(error){
+                logger.error(`Error while reading readme file, with error ${error}, for filepath ${filePath}`);
+                res.locals.readMeData = "error while reading file";
+            }    
         }
-    }
-    catch(error){
-        logger.error(`Error while reading readme file, with error ${error}, for filepath ${filePath}`);
-        res.locals.readMeData = "error while reading file";
-    }    
+        else if (err.code === "ENOENT"){
+            logger.error(`Error while reading readme file, file most likely does not exist`);
+        }
+        else{
+            logger.error(`Unknown error with code ${err.code}`);
+        }
+        
+        res.render(__filename.replace(/\.js$/, '.ejs'), res.locals);
+    });
 
-    res.render(__filename.replace(/\.js$/, '.ejs'), res.locals);
 });
 
 module.exports = router;
