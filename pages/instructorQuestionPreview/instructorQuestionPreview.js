@@ -163,11 +163,17 @@ router.get('/', function (req, res, next) {
         );
       },
       (callback) => {
+        question.parseReadmeFile(res.locals, (err) => {
+          if (ERR(err, callback)) return;
+          callback(null);
+        });
+      },
+      (callback) => {
         logPageView(req, res, (err) => {
           if (ERR(err, next)) return;
           callback(null);
         });
-      },
+      }
     ],
     (err) => {
       if (ERR(err, next)) return;
